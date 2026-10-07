@@ -311,6 +311,14 @@ const AppNav = {
       document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' });
     });
 
+    // Mobile Navigation Bar Listeners (< 860px)
+    document.getElementById('mobNavLinkHome')?.addEventListener('click', () => this.switchView('landing'));
+    document.getElementById('mobNavLinkStore')?.addEventListener('click', () => this.switchView('store'));
+    document.getElementById('mobNavLinkAbout')?.addEventListener('click', () => {
+      this.switchView('landing');
+      document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
     // Easy Swap Simulation Buttons
     document.getElementById('btnSwapStore')?.addEventListener('click', () => this.switchView('store'));
     document.getElementById('btnSwapAdmin')?.addEventListener('click', () => this.switchView('admin'));
@@ -331,6 +339,7 @@ const AppNav = {
   switchView(viewName) {
     document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.mobile-subnav-btn').forEach(b => b.classList.remove('active'));
     
     const swapStoreBtn = document.getElementById('btnSwapStore');
     const swapAdminBtn = document.getElementById('btnSwapAdmin');
@@ -353,6 +362,7 @@ const AppNav = {
       if (viewName === 'landing') {
         document.getElementById('view-landing')?.classList.add('active');
         document.getElementById('navLinkHome')?.classList.add('active');
+        document.getElementById('mobNavLinkHome')?.classList.add('active');
         swapStoreBtn?.classList.add('active');
         swapAdminBtn?.classList.remove('active');
         AppState.currentView = 'landing';
@@ -360,6 +370,7 @@ const AppNav = {
       } else if (viewName === 'store') {
         document.getElementById('view-store')?.classList.add('active');
         document.getElementById('navLinkStore')?.classList.add('active');
+        document.getElementById('mobNavLinkStore')?.classList.add('active');
         swapStoreBtn?.classList.add('active');
         swapAdminBtn?.classList.remove('active');
         AppState.currentView = 'store';
