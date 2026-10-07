@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIBE MARKET — Point of Sale & Order System</title>
+  <meta name="description" content="Artisanal goods, fresh harvest, toys, and modern order tracking. IT 101 Final Project.">
+  
+  <!-- Druk Wide Local + Google Fonts Poppins & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar (Monochrome) -->
+  <div class="top-notice-bar">
+    <span class="top-notice-pill">PROMO</span>
+    <span id="topNoticeText">BIBE MARKET • USE VOUCHER <strong>BIBE10</strong> FOR 10% OFF</span>
+  </div>
+
+  <!-- Header with Easy Swap Switcher & Vector Icons -->
+  <header class="main-header">
+    <div class="header-inner">
+      
+      <!-- Brand Logo -->
+      <div class="brand-box" id="brandLogo">
+        <div class="brand-symbol">B</div>
+        <div>
+          <div class="brand-text-title" id="headerBrandTitle">BIBE MARKET</div>
+          <div class="brand-text-tagline" id="headerBrandTagline">POS & Information System</div>
+        </div>
+      </div>
+
+      <!-- Center Navigation Links (Automatically hidden in Admin mode) -->
+      <ul class="header-nav">
+        <li><button class="nav-btn active" id="navLinkHome">Home</button></li>
+        <li><button class="nav-btn" id="navLinkStore">Store</button></li>
+        <li><button class="nav-btn" id="navLinkAbout">About</button></li>
+      </ul>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        
+        <!-- Easy Swap Simulation Switcher -->
+        <div class="swap-switcher" title="Quickly switch between Customer Store and Admin Operations">
+          <button class="swap-btn active" id="btnSwapStore">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>Store</span>
+          </button>
+          <button class="swap-btn" id="btnSwapAdmin">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span>Admin</span>
+          </button>
+        </div>
+
+        <!-- Admin Back to Store Shortcut (Only visible when in Admin mode) -->
+        <button class="admin-switch-pill admin-only-action" id="btnAdminBackToStore" title="Return to Customer Store View">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Store View</span>
+        </button>
+
+        <!-- Vouchers Popup Button (User Only) -->
+        <button class="vector-icon-btn user-only-action" id="btnHeaderVoucher" title="View Available Vouchers" aria-label="Vouchers">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><line x1="9" y1="9" x2="9" y2="15"/><line x1="15" y1="9" x2="15" y2="15"/></svg>
+        </button>
+
+        <!-- Order Tracking Button (User Only) -->
+        <button class="vector-icon-btn user-only-action" id="btnHeaderTrack" title="Track Active Order" aria-label="Track Order">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </button>
+
+        <!-- User Profile Button (User Only) -->
+        <button class="vector-icon-btn user-only-action" id="btnHeaderProfile" title="Profile & Delivery Addresses" aria-label="User Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+
+        <!-- Shopping Bag Button (User Only) -->
+        <button class="header-cart-btn user-only-action" id="btnHeaderBag" aria-label="Shopping Bag">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Bag</span>
+          <span class="cart-count-badge" id="headerBagCount">0</span>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       VIEW 1: LANDING PAGE (BIG IMAGE HERO WITH BOTTOM-LEFT STRETCHED TEXT)
+       ==================================================================== -->
+  <main class="app-view active" id="view-landing">
+    
+    <!-- Hero Section (Film-Style Sliding Carousel) -->
+    <section class="hero-immersive-section" id="heroImmersiveSection">
+      <!-- Filmstrip Track for Sliding Left to Right / Right to Left -->
+      <div class="hero-filmstrip-track" id="heroFilmstripTrack">
+        <!-- Rendered dynamically from HERO_SLIDES in app.js -->
+      </div>
+      
+      <!-- Side Navigation Arrows: Exact SVG Line Arrow Style from User Image -->
+      <button class="hero-side-arrow arrow-left" id="heroPrevSlide" aria-label="Previous Slide" title="Previous Slide">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <button class="hero-side-arrow arrow-right" id="heroNextSlide" aria-label="Next Slide" title="Next Slide">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+
+      <!-- Slider Indicator Dots -->
+      <div class="hero-slider-dots-row" id="heroSliderDotsRow">
+        <!-- Generated dynamically for active slide -->
+      </div>
+    </section>
+
+    <!-- Popular Collection Section (Fixed 5 items, no horizontal slider/scroll, buttons below) -->
+    <section class="popular-section-container">
+      <div class="section-headline-bar">
+        <div>
+          <h2>POPULAR PICKS</h2>
+          <p style="font-size: 0.9rem; color: var(--gray-500); font-weight: 500;">Featured essentials & crafted wooden toys</p>
+        </div>
+        <button class="btn-flat-outline" style="padding: 8px 16px; font-size: 0.8rem;" onclick="AppNav.switchView('store');">View All</button>
+      </div>
+
+      <!-- Fixed 5-Item Grid (No scrollbar, no clipped cards) -->
+      <div class="popular-fixed-grid" id="popularItemsGrid">
+        <!-- Dynamically populated with 5 perfectly balanced cards -->
+      </div>
+
+      <!-- Centered Prev/Next Controls & Dots below items: Exact SVG Line Arrow Style from User Image -->
+      <div class="popular-controls-row">
+        <button class="popular-nav-arrow" id="popularPrevBtn" aria-label="Previous Items" title="Previous Item Window">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        <div class="popular-dots-box" id="popularDotsBox"></div>
+        <button class="popular-nav-arrow" id="popularNextBtn" aria-label="Next Items" title="Next Item Window">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+        <span class="popular-range-badge" id="popularRangeBadge">Items 1–5 of 12</span>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section style="border-top: 2px solid var(--black); background: var(--gray-50); padding: 24px 24px;" id="aboutSection">
+      <div style="max-width: 860px; margin: 0 auto; text-align: center;">
+        <h2 style="font-family: var(--font-title); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">ABOUT BIBE MARKET</h2>
+        <p style="font-size: 0.92rem; line-height: 1.6; color: var(--gray-500);">
+          Bibe Market is a modern Point of Sale and Information System featuring real-time stock management, profile delivery addresses, dynamic variant visualization, order tracking, and administrative controls.
+        </p>
+      </div>
+    </section>
+
+    <!-- Minimalist Footer -->
+    <footer style="background: var(--black); color: var(--white); padding: 14px 24px; border-top: 2px solid var(--black);">
+      <div style="max-width: 1440px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <strong style="font-family: var(--font-title); font-size: 1.05rem; text-transform: uppercase;">BIBE MARKET</strong>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--gray-400);">
+          &copy; 2026 Bibe Market. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ====================================================================
+       VIEW 2: STORE VIEW (LEFT FILTERS, RIGHT PRODUCTS WITHOUT CARD BUTTONS)
+       ==================================================================== -->
+  <main class="app-view" id="view-store">
+    <div class="store-container">
+      
+      <div class="store-header-row">
+        <div>
+          <h1 class="store-headline-text">STORE CATALOG</h1>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--gray-500);" id="storeResultsCount">Showing all items</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <label for="storeSortSelect" style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">SORT:</label>
+          <select id="storeSortSelect" class="input-field" style="width: auto; padding: 8px 14px; font-weight: 700;">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name">Name (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="store-split-layout">
+        
+        <!-- Left Filter Sidebar -->
+        <aside class="store-filter-col">
+          <div class="filter-title-wrap">
+            <strong>FILTERS</strong>
+            <button class="btn-lifecycle" style="padding: 4px 10px; font-size: 0.75rem;" id="btnResetStoreFilters">Reset</button>
+          </div>
+
+          <!-- Keyword Search -->
+          <div>
+            <span style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 6px;">Search</span>
+            <input type="text" id="storeSearchInput" placeholder="Apple, Toy, Croissant..." class="input-field" style="padding: 8px 12px;">
+          </div>
+
+          <!-- Category Radio Filters -->
+          <div>
+            <span style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 6px;">Category</span>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; font-weight: 600;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="All" checked>
+                <span>All Items</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="Toys">
+                <span>Toys & Fun</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="Fruits">
+                <span>Fruits & Produce</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="Bakery">
+                <span>Fresh Bakery</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="Beverages">
+                <span>Beverages & Coffee</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storeCategoryRadio" value="Snacks">
+                <span>Snacks & Pantry</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Price Range -->
+          <div>
+            <span style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 6px;">Price Range</span>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; font-weight: 600;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storePriceRadio" value="all" checked>
+                <span>Any Price</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storePriceRadio" value="under-5">
+                <span>Under $5.00</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storePriceRadio" value="5-10">
+                <span>$5.00 – $10.00</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="storePriceRadio" value="over-10">
+                <span>Over $10.00</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- In Stock Checkbox -->
+          <div>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+              <input type="checkbox" id="chkStoreInStockOnly">
+              <span>In Stock Only</span>
+            </label>
+          </div>
+        </aside>
+
+        <!-- Products Grid (No buttons on cards! Clicking opens popup modal) -->
+        <div class="store-items-grid" id="storeCatalogGrid">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ====================================================================
+       VIEW 3: ADMIN PORTAL & LIFECYCLE MANAGEMENT
+       ==================================================================== -->
+  <main class="app-view" id="view-admin">
+    <div class="admin-view-wrap">
+      
+      <!-- Admin Sidebar -->
+      <aside class="admin-sidebar-box">
+        <div style="padding-bottom: 12px; border-bottom: 2px solid var(--black); margin-bottom: 8px;">
+          <strong style="font-family: var(--font-title); font-size: 1.1rem; text-transform: uppercase;">ADMIN PORTAL</strong>
+          <div style="font-size: 0.75rem; color: var(--gray-500); font-weight: 700;">STORE OPERATIONS</div>
+        </div>
+
+        <button class="admin-side-btn active" data-tab="admin-tab-overview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="admin-side-btn" data-tab="admin-tab-orders">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Orders & Sales</span>
+        </button>
+        <button class="admin-side-btn" data-tab="admin-tab-inventory">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span>Inventory</span>
+        </button>
+        <button class="admin-side-btn" data-tab="admin-tab-vouchers">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>
+          <span>Vouchers</span>
+        </button>
+        <button class="admin-side-btn" data-tab="admin-tab-demo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span>Demo Tools</span>
+        </button>
+      </aside>
+
+      <!-- Admin Main Panels -->
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Tab 1: Dashboard Overview -->
+        <div class="admin-panel-tab active" id="admin-tab-overview">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+            <div style="border: 2px solid var(--black); padding: 16px; background: var(--white);">
+              <span style="font-size: 0.75rem; font-weight: 800; color: var(--gray-500); text-transform: uppercase;">Gross Revenue</span>
+              <div style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 900; margin-top: 4px;" id="kpiGrossRev">$0.00</div>
+            </div>
+            <div style="border: 2px solid var(--black); padding: 16px; background: var(--white);">
+              <span style="font-size: 0.75rem; font-weight: 800; color: var(--gray-500); text-transform: uppercase;">Total Orders</span>
+              <div style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 900; margin-top: 4px;" id="kpiOrderCount">0</div>
+            </div>
+            <div style="border: 2px solid var(--black); padding: 16px; background: var(--white);">
+              <span style="font-size: 0.75rem; font-weight: 800; color: var(--gray-500); text-transform: uppercase;">Units Sold</span>
+              <div style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 900; margin-top: 4px;" id="kpiUnitsSold">0</div>
+            </div>
+            <div style="border: 2px solid var(--black); padding: 16px; background: var(--white);">
+              <span style="font-size: 0.75rem; font-weight: 800; color: var(--gray-500); text-transform: uppercase;">Avg Order Spend</span>
+              <div style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 900; margin-top: 4px;" id="kpiAvgSpend">$0.00</div>
+            </div>
+          </div>
+
+          <div style="border: 2px solid var(--black); padding: 20px; background: var(--white);">
+            <h3 style="font-family: var(--font-title); font-size: 1.1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 14px;">Recent Customer Transactions</h3>
+            <div class="flat-table-scroll">
+              <table class="flat-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="adminRecentMiniTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Orders & Lifecycle Management -->
+        <div class="admin-panel-tab" id="admin-tab-orders">
+          <div style="border: 2px solid var(--black); padding: 20px; background: var(--white);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-family: var(--font-title); font-size: 1.2rem; font-weight: 900; text-transform: uppercase;">ORDERS & SALES HISTORY</h3>
+                <span style="font-size: 0.8rem; color: var(--gray-500); font-weight: 600;">Manage payment verification, dispatch, and delivery</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-lifecycle" id="btnAdminExportCsv">Export CSV</button>
+                <button class="btn-lifecycle" id="btnAdminExportJson">Export JSON</button>
+              </div>
+            </div>
+
+            <div class="flat-table-scroll">
+              <table class="flat-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Items & Variants</th>
+                    <th>Total</th>
+                    <th>Method</th>
+                    <th>Current Status</th>
+                    <th>Action (Lifecycle)</th>
+                  </tr>
+                </thead>
+                <tbody id="adminFullOrdersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Inventory Management -->
+        <div class="admin-panel-tab" id="admin-tab-inventory">
+          <div style="border: 2px solid var(--black); padding: 20px; background: var(--white);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-family: var(--font-title); font-size: 1.2rem; font-weight: 900; text-transform: uppercase;">PRODUCT INVENTORY</h3>
+            </div>
+
+            <div class="flat-table-scroll">
+              <table class="flat-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Variants Available</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminInventoryTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Vouchers Management -->
+        <div class="admin-panel-tab" id="admin-tab-vouchers">
+          <div style="border: 2px solid var(--black); padding: 20px; background: var(--white);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-family: var(--font-title); font-size: 1.2rem; font-weight: 900; text-transform: uppercase;">VOUCHERS & PROMOS</h3>
+            </div>
+
+            <div class="flat-table-scroll">
+              <table class="flat-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Discount</th>
+                    <th>Times Used</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adminVouchersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Classroom Demo Tools -->
+        <div class="admin-panel-tab" id="admin-tab-demo">
+          <div style="border: 2px solid var(--black); padding: 24px; background: var(--white);">
+            <h3 style="font-family: var(--font-title); font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px;">PRESENTATION & SIMULATION TOOLS</h3>
+            <p style="font-size: 0.9rem; color: var(--gray-500); margin-bottom: 20px;">
+              Quickly load test orders or reset the entire system during your IT 101 presentation defense.
+            </p>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button class="btn-flat-black" id="btnDemoLoadOrders">Load 2 Sample Orders</button>
+              <button class="btn-flat-outline" id="btnDemoClearOrders">Clear All Orders ($0)</button>
+              <button class="btn-flat-outline" style="border-color: #ef4444; color: #ef4444;" id="btnDemoResetAll">Factory Reset</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ====================================================================
+       MODAL 1: PRODUCT DETAILS & VARIANT SELECTOR WITH DYNAMIC IMAGE SWAPPING
+       ==================================================================== -->
+  <div class="modal-overlay" id="productDetailModal">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <h3 id="modalDetailTitle">PRODUCT DETAILS</h3>
+        <button class="modal-close-x" id="btnCloseProductDetail">&times;</button>
+      </div>
+      <div class="modal-body-content">
+        <!-- Big Product Image that Swaps Dynamically with Option -->
+        <div class="modal-product-img-box">
+          <img id="modalDetailImg" src="" alt="Product" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h2 id="modalDetailName" style="font-family: var(--font-title); font-size: 1.5rem; font-weight: 900;">--</h2>
+            <span id="modalDetailPrice" style="font-family: var(--font-title); font-size: 1.5rem; font-weight: 900;">$0.00</span>
+          </div>
+          <span id="modalDetailCategory" style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Category</span>
+        </div>
+
+        <!-- Variant Options Selection (e.g. Yellow, Blue, Pink, Fuji, etc.) -->
+        <div id="modalVariantSection">
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 900; text-transform: uppercase;">Select Option / Variant:</label>
+          <div class="variant-pills-row" id="modalVariantPillsContainer">
+            <!-- Dynamically populated with pills that change image on click -->
+          </div>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 900; text-transform: uppercase;">Quantity:</label>
+          <div style="display: inline-flex; align-items: center; border: 2px solid var(--black); margin-top: 6px;">
+            <button class="cart-qty-btn" id="modalQtyMinus" style="width: 32px; height: 32px; font-size: 1rem;">-</button>
+            <span id="modalQtyVal" style="padding: 0 16px; font-family: var(--font-title); font-weight: 900;">1</span>
+            <button class="cart-qty-btn" id="modalQtyPlus" style="width: 32px; height: 32px; font-size: 1rem;">+</button>
+          </div>
+        </div>
+
+        <!-- Add to Bag Button Inside Popup Modal -->
+        <button class="btn-modal-add-cart" id="btnConfirmAddToBag">
+          Add to Bag ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 2: MY VOUCHERS LIST POPUP
+       ==================================================================== -->
+  <div class="modal-overlay" id="vouchersModal">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <h3>AVAILABLE VOUCHERS</h3>
+        <button class="modal-close-x" id="btnCloseVouchersModal">&times;</button>
+      </div>
+      <div class="modal-body-content" id="vouchersListContainer" style="gap: 12px;">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn-flat-black" id="btnDoneVouchersModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 3: ORDER TRACKING (SHOWS ACTIVE ORDER DETAILS DIRECTLY - NO TYPING)
+       ==================================================================== -->
+  <div class="modal-overlay" id="trackOrderModal">
+    <div class="modal-window" style="max-width: 540px;">
+      <div class="modal-header-bar">
+        <h3>ORDER TRACKING</h3>
+        <button class="modal-close-x" id="btnCloseTrackModal">&times;</button>
+      </div>
+      <div class="modal-body-content">
+        
+        <!-- Order Selector if user has multiple placed orders -->
+        <div id="trackOrderSelectRow" style="display: none;">
+          <label style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Select Order to Track:</label>
+          <select id="trackActiveOrderSelect" class="input-field" style="margin-top: 4px;">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- No Orders State -->
+        <div id="trackNoOrdersMsg" style="text-align: center; padding: 40px 10px; display: none;">
+          <div style="font-size: 2.5rem; margin-bottom: 8px;">📦</div>
+          <h4 style="font-family: var(--font-title); font-weight: 900; text-transform: uppercase;">No active orders yet</h4>
+          <p style="font-size: 0.85rem; color: var(--gray-500); margin-top: 4px;">Place an order in the store to begin real-time parcel tracking.</p>
+        </div>
+
+        <!-- Active Order Details Display -->
+        <div id="trackOrderDetailsBody">
+          
+          <div style="border: 2px solid var(--black); padding: 14px; background: var(--gray-50);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-family: var(--font-title); font-size: 1.2rem;" id="trackDisplayId">BM-0000</strong>
+              <span id="trackDisplayBadge" style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; background: var(--black); color: var(--white); padding: 2px 8px;">Processing</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--gray-500); margin-top: 6px;" id="trackDisplayMeta">Placed for Maria Santos • COD</div>
+            <div style="font-size: 0.85rem; font-weight: 700; margin-top: 4px;" id="trackDisplayAddress">Destination: Cebu</div>
+          </div>
+
+          <!-- Real-Time Lifecycle Stepper Pipeline -->
+          <div class="stepper-pipeline" id="trackingPipeline">
+            
+            <!-- Stage 1 -->
+            <div class="stepper-card-stage" id="stageCard1">
+              <div>
+                <div class="stage-heading">1. Payment Processing</div>
+                <div class="stage-note" id="stage1Subtext">Order received. Awaiting admin payment acceptance.</div>
+              </div>
+              <span id="stage1Check" style="font-family: var(--font-title); font-weight: 900;">⏳</span>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="stepper-card-stage" id="stageCard2">
+              <div>
+                <div class="stage-heading">2. Payment Accepted & Preparing</div>
+                <div class="stage-note" id="stage2Subtext">Payment verified by Admin. Order packed.</div>
+              </div>
+              <span id="stage2Check" style="font-family: var(--font-title); font-weight: 900;">📦</span>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="stepper-card-stage" id="stageCard3">
+              <div>
+                <div class="stage-heading">3. Passed to Shipper</div>
+                <div class="stage-note" id="stage3Subtext">Handed over to delivery courier. Out for delivery.</div>
+              </div>
+              <span id="stage3Check" style="font-family: var(--font-title); font-weight: 900;">🚚</span>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="stepper-card-stage" id="stageCard4">
+              <div>
+                <div class="stage-heading">4. Order Delivered</div>
+                <div class="stage-note" id="stage4Subtext">Parcel successfully arrived at destination.</div>
+              </div>
+              <span id="stage4Check" style="font-family: var(--font-title); font-weight: 900;">✔</span>
+            </div>
+
+          </div>
+
+          <!-- Itemized Parcel List -->
+          <div style="border-top: 1px dashed var(--black); padding-top: 12px;">
+            <strong style="font-family: var(--font-title); font-size: 0.8rem; text-transform: uppercase;">Items in Parcel:</strong>
+            <div id="trackItemsContainer" style="margin-top: 6px; font-size: 0.85rem; display: flex; flex-direction: column; gap: 4px;"></div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn-flat-black" id="btnCloseTrackModalDone">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 4: CHECKOUT MODAL (LOCKED PROFILE ADDRESS DROPDOWN, NO TAX)
+       ==================================================================== -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <h3>CHECKOUT ORDER</h3>
+        <button class="modal-close-x" id="btnCloseCheckoutModal">&times;</button>
+      </div>
+      <div class="modal-body-content">
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Customer Name:</label>
+          <input type="text" id="chkCustName" value="Maria Santos" class="input-field" style="margin-top: 4px;">
+        </div>
+
+        <!-- Locked Profile Delivery Address Dropdown -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Delivery Address (Profile):</label>
+            <button type="button" class="btn-address-make-default" id="btnCheckoutManageAddress" style="font-size: 0.7rem;">+ Manage in Profile</button>
+          </div>
+          <select id="chkCustAddressSelect" class="input-field" style="margin-top: 4px;">
+            <!-- Populated dynamically from Profile savedAddresses -->
+          </select>
+        </div>
+
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Payment Method:</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px;">
+            <button class="variant-pill-btn active" data-pay="COD" id="btnPayCOD">COD (Cash)</button>
+            <button class="variant-pill-btn" data-pay="GCash" id="btnPayGCash">GCash</button>
+            <button class="variant-pill-btn" data-pay="Card" id="btnPayCard">Card</button>
+          </div>
+        </div>
+
+        <!-- Total Breakdown in Checkout (Zero Tax!) -->
+        <div style="border: 2px solid var(--black); padding: 14px; background: var(--gray-50); margin-top: 6px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span>Subtotal:</span>
+            <span id="chkSubtotalVal">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray-600);" id="chkDiscountRow">
+            <span>Voucher Savings:</span>
+            <span id="chkDiscountVal">-$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-title); font-size: 1.3rem; font-weight: 900; border-top: 2px solid var(--black); padding-top: 6px; margin-top: 6px;">
+            <span>TOTAL TO PAY:</span>
+            <span id="chkGrandTotalVal">$0.00</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn-flat-outline" id="btnCancelCheckout">Cancel</button>
+        <button class="btn-flat-black" id="btnPlaceOrderConfirm">Place Order & Print Receipt ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 5: THERMAL RECEIPT MODAL (ZERO TAX)
+       ==================================================================== -->
+  <div class="modal-overlay" id="receiptModal">
+    <div class="modal-window" style="max-width: 420px;">
+      <div class="modal-header-bar">
+        <h3>ORDER RECEIPT</h3>
+        <button class="modal-close-x" id="btnCloseReceiptModal">&times;</button>
+      </div>
+      <div class="modal-body-content" style="padding: 16px;">
+        <div class="receipt-paper" id="printableReceiptArea">
+          <div style="text-align: center;">
+            <h2 style="font-size: 1.2rem; font-weight: 900; letter-spacing: 1px;">BIBE MARKET</h2>
+            <p>101 Computing Avenue, Tech City</p>
+            <p>Terminal #01 • Zero Database System</p>
+          </div>
+
+          <hr class="receipt-hr">
+
+          <div style="display: flex; justify-content: space-between;">
+            <span>Receipt #:</span>
+            <strong id="rcptNum">BM-0000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Date:</span>
+            <span id="rcptDateText">--</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Customer:</span>
+            <span id="rcptCustName">Maria</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Deliver To:</span>
+            <span id="rcptLocText" style="text-align: right; max-width: 220px;">Cebu</span>
+          </div>
+
+          <hr class="receipt-hr">
+
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 1px dashed #000; text-align: left;">
+                <th>Item / Variant</th>
+                <th style="text-align: center;">Qty</th>
+                <th style="text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="rcptItemsTableBody"></tbody>
+          </table>
+
+          <hr class="receipt-hr">
+
+          <div style="display: flex; justify-content: space-between;">
+            <span>Subtotal:</span>
+            <span id="rcptSubtotalText">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;" id="rcptDiscountRow">
+            <span>Voucher Savings:</span>
+            <span id="rcptDiscountText">-$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 900; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 4px 0; margin: 4px 0;">
+            <span>TOTAL:</span>
+            <span id="rcptTotalText">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Payment:</span>
+            <span id="rcptPayMethod">COD</span>
+          </div>
+
+          <div style="text-align: center; margin-top: 16px;">
+            <p>*** THANK YOU FOR SHOPPING ***</p>
+            <p>Track your delivery with Order # above</p>
+            <div style="letter-spacing: 4px; font-weight: 900; margin-top: 6px;">||| | |||| | ||||| |||</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn-flat-black" id="btnPrintReceiptBtn">🖨️ Print Receipt</button>
+        <button class="btn-flat-outline" id="btnTrackFromReceipt">Track Delivery ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 6: USER PROFILE & SAVED ADDRESSES MANAGER
+       ==================================================================== -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <h3>USER PROFILE</h3>
+        <button class="modal-close-x" id="btnCloseProfileModal">&times;</button>
+      </div>
+      <div class="modal-body-content">
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Full Name:</label>
+          <input type="text" id="profNameInput" class="input-field" value="Maria Santos" style="margin-top: 4px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Email:</label>
+          <input type="email" id="profEmailInput" class="input-field" value="maria.santos@example.com" style="margin-top: 4px;">
+        </div>
+        
+        <!-- Saved Delivery Addresses Section -->
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Saved Delivery Addresses:</label>
+          <p style="font-size: 0.75rem; color: var(--gray-500); margin-top: 2px;">Used directly for checkout dropdown selection.</p>
+          
+          <div class="profile-address-box">
+            <div class="profile-address-list" id="profileAddressListContainer">
+              <!-- Dynamically populated with saved addresses -->
+            </div>
+
+            <!-- Add New Address Input Row -->
+            <div class="address-add-input-row">
+              <input type="text" id="profNewAddressInput" placeholder="Enter new delivery address..." class="input-field" style="padding: 8px 12px;">
+              <button class="btn-flat-black" id="profBtnAddAddress" style="padding: 8px 16px; white-space: nowrap; font-size: 0.75rem;">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn-flat-outline" id="btnCancelProfileModal">Cancel</button>
+        <button class="btn-flat-black" id="btnSaveProfileModal">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       SLIDE-OVER SHOPPING BAG DRAWER (GROUPED BY CATEGORY, ZERO TAX)
+       ==================================================================== -->
+  <div class="cart-overlay-bg" id="cartOverlay">
+    <div class="cart-slide-drawer">
+      
+      <div class="drawer-top-bar">
+        <h3>SHOPPING BAG</h3>
+        <button class="drawer-close-cross" id="btnCloseCartDrawer">&times;</button>
+      </div>
+
+      <!-- Drawer Body: Grouped by Category -->
+      <div class="drawer-scroll-body" id="cartDrawerItemsBody">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Drawer Footer (Zero Tax!) -->
+      <div class="drawer-bottom-bar">
+        
+        <!-- Voucher Selector -->
+        <div>
+          <label style="font-family: var(--font-title); font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Apply Claimed Voucher:</label>
+          <div style="display: flex; gap: 6px; margin-top: 4px;">
+            <select id="cartVoucherSelectBox" class="input-field" style="padding: 6px 10px; font-size: 0.8rem;">
+              <option value="">-- Select Claimed Voucher --</option>
+            </select>
+            <button class="btn-lifecycle" id="btnApplyCartVoucher">Apply</button>
+          </div>
+        </div>
+
+        <!-- Destination Address Reminder -->
+        <div style="font-size: 0.8rem; color: var(--gray-500); padding: 4px 0;">
+          <span>Deliver to: </span>
+          <strong id="cartDeliverToDisplay" style="color: var(--black);">--</strong>
+        </div>
+
+        <!-- Calculation Breakdown (No Tax!) -->
+        <div class="drawer-calc-row">
+          <span>Subtotal:</span>
+          <span id="cartSubtotalText">$0.00</span>
+        </div>
+        <div class="drawer-calc-row" id="cartDiscountRow" style="display: none; color: #16a34a;">
+          <span>Voucher Savings:</span>
+          <span id="cartDiscountText">-$0.00</span>
+        </div>
+        <div class="drawer-calc-row total-bold">
+          <span>TOTAL:</span>
+          <span id="cartGrandTotalText">$0.00</span>
+        </div>
+
+        <button class="btn-proceed-cart" id="btnProceedToCheckout">
+          Checkout Order ➔
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div class="toast-bar" id="toastBox"></div>
+
+  <!-- Modular JavaScript Engine -->
+  <script src="app.js"></script>
+</body>
+</html>
